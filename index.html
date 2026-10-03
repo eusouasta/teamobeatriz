@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+<meta name="theme-color" content="#590d22" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<title>Uma pergunta importante 💖</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  :root{--pink-light:#ff8fa3;--stroke:rgba(255,255,255,.22)}
+  html,body{height:100%}
+  body{
+    font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+    min-height:100vh;min-height:100dvh;
+    overflow:hidden;overscroll-behavior:none;
+    color:#fff;display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(160deg,#1a0514 0%,#3b0a2a 30%,#800f2f 65%,#1a0514 100%);
+    background-size:250% 250%;animation:bgMove 10s ease infinite;
+    touch-action:manipulation;
+    padding:calc(env(safe-area-inset-top,0px) + 10px) 14px calc(env(safe-area-inset-bottom,0px) + 10px);
+    user-select:none;-webkit-user-select:none;
+  }
+  @keyframes bgMove{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+  .blob{position:fixed;border-radius:50%;filter:blur(70px);opacity:.55;pointer-events:none;z-index:0;animation:floatBlob 9s ease-in-out infinite}
+  .blob.b1{width:70vw;height:70vw;max-width:380px;max-height:380px;background:radial-gradient(circle,#ff4d6d,#7b2ff7);top:-80px;left:-80px}
+  .blob.b2{width:80vw;height:80vw;max-width:420px;max-height:420px;background:radial-gradient(circle,#ff8fa3,#ff4d6d);bottom:-100px;right:-80px;animation-delay:-3s}
+  @keyframes floatBlob{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-24px) scale(1.06)}}
+  #bg-hearts{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+  .bg-heart{position:absolute;bottom:-40px;opacity:0;animation:rise linear forwards}
+  @keyframes rise{0%{transform:translateY(0) scale(.6);opacity:0}10%{opacity:.9}100%{transform:translateY(-110vh) rotate(40deg) scale(1.2);opacity:0}}
+
+  .wrap{position:relative;z-index:5;width:100%;max-width:400px}
+  .card{
+    background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,.07));
+    backdrop-filter:blur(22px) saturate(160%);-webkit-backdrop-filter:blur(22px) saturate(160%);
+    border:1px solid var(--stroke);border-radius:28px;
+    padding:30px 22px 24px;text-align:center;
+    box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 50px rgba(255,77,109,.25);
+    position:relative;overflow:hidden;
+  }
+  .card::before{content:'';position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.18) 48%,transparent 62%);transform:translateX(-100%);animation:shine 4.5s ease infinite;pointer-events:none}
+  @keyframes shine{0%{transform:translateX(-100%)}60%,100%{transform:translateX(100%)}}
+  .badge{display:inline-flex;align-items:center;gap:8px;font-size:10.5px;letter-spacing:2px;text-transform:uppercase;font-weight:700;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);padding:7px 14px;border-radius:100px;color:#ffe5ec;margin-bottom:12px}
+  .badge .dot{width:8px;height:8px;background:#4ade80;border-radius:50%;box-shadow:0 0 10px #4ade80;animation:blink 1.2s infinite}
+  @keyframes blink{50%{opacity:.4}}
+  .heart-main{font-size:60px;line-height:1;display:inline-block;animation:beat 1.1s ease-in-out infinite;filter:drop-shadow(0 8px 20px rgba(255,77,109,.8));margin-bottom:6px}
+  @keyframes beat{0%,100%{transform:scale(1)}25%{transform:scale(1.18)}40%{transform:scale(1)}60%{transform:scale(1.15)}}
+  h1{font-size:28px;line-height:1.15;font-weight:800;margin-bottom:8px;background:linear-gradient(90deg,#fff,#ffd6e0,#ff8fa3,#fff);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:textShine 4s linear infinite}
+  @keyframes textShine{to{background-position:200% center}}
+  .sub{color:#ffc8d6;font-size:14px;margin-bottom:18px;line-height:1.5}
+  .sub b{color:#fff}
+  .progress{display:flex;justify-content:center;gap:7px;margin-bottom:18px;font-size:17px}
+  .progress span{filter:grayscale(1);opacity:.35;transition:.3s}
+  .progress span.on{filter:none;opacity:1;transform:scale(1.3)}
+
+  button{font-family:inherit;cursor:pointer;border:none;font-weight:800;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+  #btn-sim{
+    width:100%;min-height:62px;font-size:20px;border-radius:100px;color:#fff;
+    background:linear-gradient(135deg,#ff4d6d,#ff758f 50%,#ff4d6d);background-size:200% 200%;
+    box-shadow:0 10px 28px rgba(255,77,109,.55),0 0 0 4px rgba(255,77,109,.18);
+    animation:btnPulse 1.8s ease-in-out infinite;transition:transform .25s;
+    position:relative;z-index:6;
+  }
+  @keyframes btnPulse{0%,100%{box-shadow:0 10px 28px rgba(255,77,109,.55),0 0 0 0 rgba(255,77,109,.5)}50%{box-shadow:0 10px 28px rgba(255,77,109,.65),0 0 0 12px rgba(255,77,109,0)}}
+  #btn-sim:active{transform:scale(.96)}
+
+  /* 1 NÃO por vez, espalhado pela tela */
+  .btn-nao{
+    position:fixed;z-index:60;margin:0;
+    min-width:120px;padding:14px 28px;
+    font-size:15px;font-weight:700;
+    border-radius:100px;white-space:nowrap;
+    background:rgba(30,8,22,.94);color:#ffe5ec;
+    border:1.5px solid rgba(255,255,255,.4);
+    box-shadow:0 12px 30px rgba(0,0,0,.55),0 0 18px rgba(255,77,109,.25);
+    transition:left .28s ease, top .28s ease, transform .2s, opacity .3s;
+  }
+  .btn-nao:active{transform:scale(.92)}
+  .btn-nao.sumindo{transform:scale(0) rotate(360deg)!important;opacity:0}
+  /* estado inicial: dentro do card, antes de fugir */
+  .btn-nao.inicio{position:static;width:100%;min-height:52px;margin-top:12px;background:rgba(255,255,255,.12)}
+
+  .hint{min-height:22px;margin-top:16px;font-size:13px;color:#ffb3c6;font-style:italic;line-height:1.4}
+  .contador{font-size:11px;letter-spacing:1px;color:rgba(255,255,255,.65);margin-top:6px;text-transform:uppercase;font-weight:700}
+  .footer{margin-top:12px;font-size:11px;color:rgba(255,255,255,.55)}
+  .footer span{color:var(--pink-light)}
+
+  #sucesso{display:none}
+  #sucesso.show{display:block;animation:popIn .6s cubic-bezier(.34,1.56,.64,1)}
+  @keyframes popIn{0%{transform:scale(.6);opacity:0}100%{transform:scale(1);opacity:1}}
+  .big-love{font-size:72px;animation:beat 1s infinite;margin-bottom:6px}
+  #sucesso h2{font-size:27px;margin-bottom:10px}
+  #sucesso h2 em{font-style:italic;color:var(--pink-light)}
+  .letter{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:18px;padding:18px 16px;margin:14px 0;font-size:15.5px;line-height:1.65;color:#fff2f5}
+  #typewriter::after{content:'▍';animation:blink 1s infinite;color:var(--pink-light)}
+  .code-joke{margin-top:12px;font-family:ui-monospace,monospace;background:#0f0f1a;border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:13px;font-size:12.5px;text-align:left;line-height:1.65;color:#c8ffe0;overflow-x:auto;white-space:nowrap}
+  .code-joke .k{color:#ff7aa2}.code-joke .s{color:#ffd166}.code-joke .c{color:#7dd3fc}
+  .btn-again{margin-top:14px;background:#fff;color:#c9184a;padding:15px 28px;border-radius:100px;font-size:15px;width:100%;min-height:52px}
+
+  #chuva{position:fixed;inset:0;pointer-events:none;z-index:99;overflow:hidden}
+  .fall{position:absolute;top:-50px;animation:fall linear forwards}
+  @keyframes fall{to{transform:translateY(112vh) rotate(360deg)}}
+  .confete{position:absolute;width:9px;height:9px;top:-10px;animation:fall linear forwards}
+</style>
+</head>
+<body>
+
+<div class="blob b1"></div>
+<div class="blob b2"></div>
+<div id="bg-hearts"></div>
+<div id="chuva"></div>
+
+<div class="wrap">
+  <div class="card" id="card">
+    <div id="pergunta">
+      <div class="badge"><span class="dot"></span> mensagem importante</div>
+      <div class="heart-main">💖</div>
+      <h1>Você me ama muito?</h1>
+      <p class="sub">Pensa bem... <b>essa resposta vai mudar o meu dia</b> 🥺👉👈</p>
+      <div class="progress" id="progress"><span>💔</span><span>💔</span><span>💔</span></div>
+      <button id="btn-sim">SIM! 💘</button>
+      <button class="btn-nao inicio" id="btn-nao">Não</button>
+      <div class="hint" id="hint">escolha com o coração...</div>
+      <div class="contador" id="contador">tentativas: 0/3</div>
+      <div class="footer">feito com <span>♥</span> pelo seu mozão programador</div>
+    </div>
+
+    <div id="sucesso">
+      <div class="big-love">💝</div>
+      <h2>Ela disse <em>SIM!</em> 🥹💍</h2>
+      <div class="letter">
+        <div id="typewriter"></div>
+        <div class="code-joke">
+          <span class="c">// nosso amor em código</span><br>
+          <span class="k">if</span> (você == <span class="s">"meu amor"</span>) {<br>
+          &nbsp;&nbsp;coração = <span class="s">"seu p/ sempre"</span>; 💖<br>
+          } <span class="k">else</span> { teProgramaria(); ✨ }
+        </div>
+      </div>
+      <button class="btn-again" onclick="location.reload()">↻ perguntar de novo</button>
+      <div class="footer">te amo infinitamente • <span>while(true) amar(você)</span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const btnSim = document.getElementById('btn-sim');
+  const btnNao = document.getElementById('btn-nao');
+  const hint = document.getElementById('hint');
+  const contador = document.getElementById('contador');
+  const progress = document.querySelectorAll('#progress span');
+  const card = document.getElementById('card');
+
+  let fugas = 0;
+  const MAX = 3;
+
+  // corações de fundo
+  const bg = document.getElementById('bg-hearts');
+  const emojis = ['💖','💘','💝','❤️','💕','✨'];
+  function soltarBg(){
+    if(document.hidden) return;
+    const s = document.createElement('div');
+    s.className = 'bg-heart';
+    s.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    s.style.left = Math.random()*100 + 'vw';
+    s.style.fontSize = (13 + Math.random()*18) + 'px';
+    s.style.animationDuration = (4 + Math.random()*4) + 's';
+    bg.appendChild(s);
+    setTimeout(()=>s.remove(), 8500);
+  }
+  setInterval(soltarBg, 800);
+
+  function moverParaLugarAleatorio(){
+    // tira do card e vira flutuante (1 por vez)
+    btnNao.classList.remove('inicio');
+    btnNao.style.display = 'block';
+    btnNao.style.position = 'fixed';
+    btnNao.style.margin = '0';
+    btnNao.style.zIndex = '60';
+    // garante medida real mesmo no celular
+    const w = btnNao.offsetWidth || 130;
+    const h = btnNao.offsetHeight || 50;
+    const m = 12;
+    const maxX = Math.max(12, window.innerWidth - w - m);
+    const minY = 80;
+    const maxY = Math.max(minY + 20, window.innerHeight - h - 80);
+    const cardRect = card.getBoundingClientRect();
+    let fx = m, fy = maxY;
+    for(let t=0; t<40; t++){
+      const x = m + Math.random() * (maxX - m);
+      const y = minY + Math.random() * (maxY - minY);
+      const folga = 6;
+      const colideCard = !(x + w + folga < cardRect.left || x - folga > cardRect.right || y + h + folga < cardRect.top || y - folga > cardRect.bottom);
+      fx = x; fy = y;
+      if(!colideCard) break;
+      // se tentou muito e só colide, aceita mesmo por cima pra nunca sumir
+      if(t === 39) break;
+    }
+    btnNao.style.left = fx + 'px';
+    btnNao.style.top = fy + 'px';
+  }
+
+  // SÓ no clique — texto sempre "Não", 1 por vez
+  btnNao.addEventListener('click', (e)=>{
+    e.preventDefault();
+    if(fugas >= MAX) return;
+    fugas++;
+
+    progress.forEach((p,i)=>{ if(i < fugas) p.classList.add('on'); });
+    contador.textContent = "tentativas: " + fugas + "/3";
+
+    const escala = 1 + fugas * 0.13;
+    btnSim.style.transform = "scale(" + escala + ")";
+    if(navigator.vibrate) navigator.vibrate(30);
+
+    // mantém SEMPRE "Não"
+    btnNao.textContent = "Não";
+
+    if(fugas >= MAX){
+      hint.textContent = "Só resta o SIM! 💖";
+      hint.style.color = "#fff";
+      hint.style.fontWeight = "700";
+      btnSim.style.fontSize = "24px";
+      btnNao.classList.add('sumindo');
+      setTimeout(()=>btnNao.remove(), 400);
+      return;
+    }
+
+    moverParaLugarAleatorio();
+    btnNao.animate([
+      { transform: 'scale(0) rotate(-90deg)' },
+      { transform: 'scale(1.12) rotate(6deg)' },
+      { transform: 'scale(1)' }
+    ], { duration: 320 });
+  });
+
+  btnSim.addEventListener('click', () => {
+    document.getElementById('pergunta').style.display = 'none';
+    document.getElementById('sucesso').classList.add('show');
+    if(document.body.contains(btnNao)) btnNao.remove();
+    chuvaDeAmor();
+    escreverTexto();
+    if(navigator.vibrate) navigator.vibrate([120,60,120]);
+  });
+
+  const mensagem = "Eu também amo você, meu amor. 💖 Você foi minha melhor escolha, você é o if do meu else! Se você não existisse, eu programaria você. Te amo! 💍✨";
+  function escreverTexto(){
+    const el = document.getElementById('typewriter');
+    el.innerHTML = "";
+    let i = 0;
+    const t = setInterval(()=>{
+      el.innerHTML = "<b>" + mensagem.slice(0, ++i) + "</b>";
+      if(i >= mensagem.length) clearInterval(t);
+    }, 28);
+  }
+
+  function chuvaDeAmor(){
+    const chuva = document.getElementById('chuva');
+    const cor = ['❤️','💖','💘','💝','💕','💗','🌹','✨'];
+    for(let i=0;i<120;i++){
+      setTimeout(()=>{
+        const d = document.createElement('div');
+        d.className = 'fall';
+        d.textContent = cor[Math.floor(Math.random()*cor.length)];
+        d.style.left = Math.random()*100 + 'vw';
+        d.style.fontSize = (18 + Math.random()*28) + 'px';
+        d.style.animationDuration = (2 + Math.random()*3) + 's';
+        chuva.appendChild(d);
+        setTimeout(()=>d.remove(), 5500);
+      }, i*28);
+    }
+    const cores = ['#ff4d6d','#ff8fa3','#ffd166','#7b2ff7','#4ade80','#fff'];
+    for(let i=0;i<70;i++){
+      setTimeout(()=>{
+        const c = document.createElement('div');
+        c.className = 'confete';
+        c.style.left = Math.random()*100 + 'vw';
+        c.style.background = cores[Math.floor(Math.random()*cores.length)];
+        c.style.borderRadius = Math.random()>.5 ? '50%' : '3px';
+        c.style.animationDuration = (2 + Math.random()*2.5) + 's';
+        chuva.appendChild(c);
+        setTimeout(()=>c.remove(), 5000);
+      }, i*25);
+    }
+  }
+</script>
+</body>
+</html>
