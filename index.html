@@ -66,21 +66,20 @@
   @keyframes btnPulse{0%,100%{box-shadow:0 10px 28px rgba(255,77,109,.55),0 0 0 0 rgba(255,77,109,.5)}50%{box-shadow:0 10px 28px rgba(255,77,109,.65),0 0 0 12px rgba(255,77,109,0)}}
   #btn-sim:active{transform:scale(.96)}
 
-  /* 1 NÃO por vez, espalhado pela tela */
+  /* 1 NÃO por vez — 3 lugares FIXOS dentro do card */
+  .btn-area{display:flex;flex-direction:column;gap:12px;margin-top:4px}
   .btn-nao{
-    position:fixed;z-index:60;margin:0;
-    min-width:120px;padding:14px 28px;
+    position:static;width:100%;min-height:52px;
+    padding:14px 20px;
     font-size:15px;font-weight:700;
     border-radius:100px;white-space:nowrap;
-    background:rgba(30,8,22,.94);color:#ffe5ec;
+    background:rgba(255,255,255,.12);color:#ffe5ec;
     border:1.5px solid rgba(255,255,255,.4);
-    box-shadow:0 12px 30px rgba(0,0,0,.55),0 0 18px rgba(255,77,109,.25);
-    transition:left .28s ease, top .28s ease, transform .2s, opacity .3s;
+    box-shadow:0 6px 18px rgba(0,0,0,.3);
+    transition:transform .2s, opacity .3s;
   }
-  .btn-nao:active{transform:scale(.92)}
+  .btn-nao:active{transform:scale(.95)}
   .btn-nao.sumindo{transform:scale(0) rotate(360deg)!important;opacity:0}
-  /* estado inicial: dentro do card, antes de fugir */
-  .btn-nao.inicio{position:static;width:100%;min-height:52px;margin-top:12px;background:rgba(255,255,255,.12)}
 
   .hint{min-height:22px;margin-top:16px;font-size:13px;color:#ffb3c6;font-style:italic;line-height:1.4}
   .contador{font-size:11px;letter-spacing:1px;color:rgba(255,255,255,.65);margin-top:6px;text-transform:uppercase;font-weight:700}
@@ -120,8 +119,10 @@
       <h1>Você me ama muito?</h1>
       <p class="sub">Pensa bem... <b>essa resposta vai mudar o meu dia</b> 🥺👉👈</p>
       <div class="progress" id="progress"><span>💔</span><span>💔</span><span>💔</span></div>
-      <button id="btn-sim">SIM! 💘</button>
-      <button class="btn-nao inicio" id="btn-nao">Não</button>
+      <div class="btn-area" id="btn-area">
+        <button id="btn-sim">SIM! 💘</button>
+        <button class="btn-nao" id="btn-nao">Não</button>
+      </div>
       <div class="hint" id="hint">escolha com o coração...</div>
       <div class="contador" id="contador">tentativas: 0/3</div>
       <div class="footer">feito com <span>♥</span> pelo seu mozão programador</div>
@@ -172,34 +173,27 @@
   }
   setInterval(soltarBg, 800);
 
-  function moverParaLugarAleatorio(){
-    // tira do card e vira flutuante (1 por vez)
-    btnNao.classList.remove('inicio');
-    btnNao.style.display = 'block';
-    btnNao.style.position = 'fixed';
-    btnNao.style.margin = '0';
-    btnNao.style.zIndex = '60';
-    // garante medida real mesmo no celular
-    const w = btnNao.offsetWidth || 130;
-    const h = btnNao.offsetHeight || 50;
-    const m = 12;
-    const maxX = Math.max(12, window.innerWidth - w - m);
-    const minY = 80;
-    const maxY = Math.max(minY + 20, window.innerHeight - h - 80);
-    const cardRect = card.getBoundingClientRect();
-    let fx = m, fy = maxY;
-    for(let t=0; t<40; t++){
-      const x = m + Math.random() * (maxX - m);
-      const y = minY + Math.random() * (maxY - minY);
-      const folga = 6;
-      const colideCard = !(x + w + folga < cardRect.left || x - folga > cardRect.right || y + h + folga < cardRect.top || y - folga > cardRect.bottom);
-      fx = x; fy = y;
-      if(!colideCard) break;
-      // se tentou muito e só colide, aceita mesmo por cima pra nunca sumir
-      if(t === 39) break;
+  function moverParaLugarFixo(){
+    const area = document.getElementById('btn-area');
+    // lugares FIXOS dentro do molde (sempre visíveis):
+    // lugar 1 (inicial): SIM em cima, NÃO embaixo
+    // lugar 2 (após 1º clique): NÃO em cima, SIM embaixo
+    // lugar 3 (após 2º clique): lado a lado, NÃO na direita
+    if(fugas === 1){
+      area.style.flexDirection = 'column';
+      btnSim.style.order = '2';
+      btnNao.style.order = '1';
+      btnNao.style.width = '100%';
+      btnSim.style.width = '100%';
+    } else if(fugas === 2){
+      area.style.flexDirection = 'row';
+      btnSim.style.order = '1';
+      btnNao.style.order = '2';
+      btnSim.style.width = '58%';
+      btnNao.style.width = '42%';
+      btnSim.style.minHeight = '58px';
+      btnNao.style.minHeight = '58px';
     }
-    btnNao.style.left = fx + 'px';
-    btnNao.style.top = fy + 'px';
   }
 
   // SÓ no clique — texto sempre "Não", 1 por vez
@@ -228,12 +222,12 @@
       return;
     }
 
-    moverParaLugarAleatorio();
+    moverParaLugarFixo();
     btnNao.animate([
-      { transform: 'scale(0) rotate(-90deg)' },
-      { transform: 'scale(1.12) rotate(6deg)' },
+      { transform: 'scale(.85)' },
+      { transform: 'scale(1.08)' },
       { transform: 'scale(1)' }
-    ], { duration: 320 });
+    ], { duration: 300 });
   });
 
   btnSim.addEventListener('click', () => {
